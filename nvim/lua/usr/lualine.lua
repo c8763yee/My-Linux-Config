@@ -19,6 +19,6 @@ end
 require("lualine").setup({
   extensions = { "nvim-tree", "fugitive" },
   sections = {
-    lualine_x = { rime_status, "encoding", "fileformat", "filetype" },
+    lualine_x = { "copilot", rime_status, "encoding", "fileformat", "filetype" },
   },
 })

@@ -11,6 +11,8 @@ local servers = {
   "vimls",
   "yamlls",
   "perlnavigator",
+  "ruff",
+  "clangd",
   -- "typos_lsp",
   -- "tsserver",
 }

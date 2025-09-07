@@ -29,6 +29,37 @@ require("lazy").setup({
   { "hrsh7th/cmp-cmdline" },
   { "octaltree/cmp-look" }, -- 利用 nvim/10k.txt 来补全输入
 
+  -- copilot
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = {
+      suggestion = {
+        enabled = not vim.g.ai_cmp,
+        auto_trigger = true,
+        hide_during_completion = vim.g.ai_cmp,
+        keymap = {
+          accept = false, -- handled by nvim-cmp / blink.cmp
+          next = "<M-]>",
+          prev = "<M-[>",
+        },
+      },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
+  },
+  {
+    "zbirenbaum/copilot-cmp",
+    config = function()
+      require("copilot_cmp").setup()
+    end
+  },
+
   -- 代码段
   {
     "L3MON4D3/LuaSnip",
@@ -73,9 +104,11 @@ require("lazy").setup({
   "RRethy/nvim-treesitter-textsubjects",
   "nvim-treesitter/nvim-treesitter-textobjects",
   -- ui
-  "kyazdani42/nvim-tree.lua",                                        -- 文件树
-  "akinsho/bufferline.nvim",                                         -- buffer
-  "nvim-lualine/lualine.nvim",                                       -- 状态栏
+  "kyazdani42/nvim-tree.lua",  -- 文件树
+  "akinsho/bufferline.nvim",   -- buffer
+  "nvim-lualine/lualine.nvim", -- 状态栏
+  "AndreM222/copilot-lualine",
+
   "kazhala/close-buffers.nvim",                                      -- 一键删除不可见 buffer
   { "axkirillov/hbac.nvim",  event = "SessionLoadPost", opts = {} }, -- 自动删除长期不用的 buffer
   "gelguy/wilder.nvim",                                              -- 更加智能的命令窗口
@@ -169,7 +202,7 @@ require("lazy").setup({
     'mcauley-penney/visual-whitespace.nvim',
     config = true,
     branch = "compat-v10", -- nvim 0.11 版本不兼容了
-  }, -- 在 visual mode 展示空白字符
+  },                       -- 在 visual mode 展示空白字符
   {
     "yetone/avante.nvim",
     enabled = false,
@@ -211,6 +244,28 @@ require("lazy").setup({
         cppman.input()
       end)
     end,
+  },
+  {
+    "linux-cultist/venv-selector.nvim",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
+      { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+    },
+    lazy = false,
+    branch = "regexp", -- This is the regexp branch, use this for the new version
+    keys = {
+      { ",v", "<cmd>VenvSelect<cr>" },
+    },
+    ---@type venv-selector.Config
+    opts = {
+      -- Your settings go here
+    },
+  },
+  {
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {}
   },
   ---@type LazySpec
   {
