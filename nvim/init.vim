@@ -2,14 +2,15 @@ set autoread
 au FocusGained,BufEnter * :checktime
 " 当失去焦点或者离开当前的 buffer 的时候保存
 set autowrite
+set nu rnu
 autocmd FocusLost,BufLeave * silent! update
 
-set nu rnu
 " 映射 leader 键为 ,
 let g:mapleader = ','
 " 将 q 映射为 <leader>q，因为录制宏的操作比较少，而关掉窗口的操作非常频繁
 noremap <leader>q q
 inoremap kj <ESC>
+
 " 访问系统剪切板
 map <leader>y "+y
 map <leader>p "+p
@@ -20,15 +21,16 @@ map <leader>d "+d
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr()
 
+" 让光标自动进入到 popup window 中间
+" 去掉默认的 <leader>gm 快捷键，这个配置需要在 which-key 前面配置才可以生效
+let g:git_messenger_always_into_popup = v:true
+let g:git_messenger_no_default_mappings = v:true
+
 " 加载 lua 配置
 lua require 'usr'
 
 " 在 markdown 中间编辑 table
 let g:table_mode_corner='|'
-
-" 让光标自动进入到 popup window 中间
-let g:git_messenger_always_into_popup = v:true
-let g:git_messenger_no_default_mappings = v:true
 
 " 使用 gx 在 vim 中间直接打开链接
 let g:netrw_nogx = 1 " disable netrw's gx mapping.
@@ -49,11 +51,5 @@ let @k = 'ysiw"\<Esc>'
 
 let g:loaded_perl_provider = 0
 
-" this keymapping originally set by whichkey doesn't work in neovim 0.8
-noremap <Space>bc :BDelete hidden<cr>
-
 let g:gitblame_delay = 1500
 let g:gitblame_ignored_filetypes = ['lua', 'markdown', 'sh']
-
-" 因为 nvim-treesitter-textobjects 使用 x 来跳转，原始的 x 被映射为 xx
-nn xx x
